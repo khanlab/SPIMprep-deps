@@ -1,4 +1,3 @@
-# Stage: python deps
 FROM python:bullseye as python
 
 
@@ -28,51 +27,42 @@ RUN set -eux \
 ENV LANG C.UTF-8
 ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0-amazon-corretto
 
-#install maven hdf5-tools
-RUN apt-get update && apt-get install -y maven hdf5-tools && mkdir -p /opt/bin
+
+#install maven hdf5-tools deps
+RUN apt-get update && apt-get install -y maven hdf5-tools libblosc-dev && mkdir -p /opt/bin
 
 ENV PATH $PATH:/opt/bin
 
 #install n5-utils
 RUN cd /opt && git clone https://github.com/saalfeldlab/n5-utils && cd n5-utils && ./install /opt/bin
 
-#install bigstitcher-spark
-RUN cd /opt && git clone https://github.com/JaneliaSciComp/BigStitcher-Spark.git && cd BigStitcher-Spark && ./install -t 32 -m 128 && cp affine-fusion /opt/bin
-
-
-
-
-# Create a user.
-#RUN useradd -u 1000 -ms /bin/bash fiji
-#RUN mkdir /opt/fiji && chown fiji:fiji /opt/fiji
-#USER fiji
-
-# Define working directory.
-WORKDIR /opt/fiji
+#install bigstitcher-spark, and customize launcher to include args for mem and cpu 
+RUN cd /opt && git clone https://github.com/JaneliaSciComp/BigStitcher-Spark.git && cd BigStitcher-Spark && ./install -t 32 -m 128 && \ 
+ sed 's/-Xmx128g/-Xmx${1}/' affine-fusion  | sed 's/local\[32\]/local\[${2}\]/' | sed 's/JAR=/if \[ "$#" -lt 2 \]; then echo "Usage : $0 <mem (e.g. 32g)> <cpus (e.g. 16)"; exit 1; fi\nJAR=/g' > /opt/bin/affine-fusion-custom && chmod a+x /opt/bin/affine-fusion-custom
 
 
 # Install Fiji.
-RUN wget -q https://downloads.imagej.net/fiji/archive/20240208-1017/fiji-nojre.zip \
+RUN mkdir /opt/fiji \
+ && cd /opt/fiji \
+ && wget -q https://downloads.imagej.net/fiji/archive/20240208-1017/fiji-nojre.zip \
  && unzip fiji-nojre.zip \
  && rm fiji-nojre.zip
 
 # Add fiji to the PATH
 ENV PATH $PATH:/opt/fiji/Fiji.app
 
-# Define entrypoint.
-COPY --chown=fiji:fiji entrypoint.sh /opt/fiji
-ENTRYPOINT ["./entrypoint.sh"]
 
 # Update URLs use https
-RUN ./entrypoint.sh --update edit-update-site ImageJ https://update.imagej.net/
-RUN ./entrypoint.sh --update edit-update-site Fiji https://update.fiji.sc/
-RUN ./entrypoint.sh --update edit-update-site Java-8 https://sites.imagej.net/Java-8/
+RUN ImageJ-linux64 --update edit-update-site ImageJ https://update.imagej.net/ \
+ && ImageJ-linux64 --update edit-update-site Fiji https://update.fiji.sc/ \
+ && ImageJ-linux64 --update edit-update-site Java-8 https://sites.imagej.net/Java-8/
 
-# Run once to create Java preferences.
-COPY --chown=fiji:fiji demo.py /opt/fiji/
-RUN ./entrypoint.sh --headless --ij2 --console --run ./demo.py 'name="test"'
 
 #install bigstitcher
-RUN ImageJ-linux64 --update  add-update-site BigStitcher https://sites.imagej.net/BigStitcher/ && ImageJ-linux64  --update refresh-update-sites && ImageJ-linux64  --update  update && ImageJ-linux64  --update  list 
+RUN ImageJ-linux64 --update  add-update-site BigStitcher https://sites.imagej.net/BigStitcher/ \
+ && ImageJ-linux64  --update refresh-update-sites \
+ && ImageJ-linux64  --update  update \
+ && ImageJ-linux64  --update  list 
 
 
+ENTRYPOINT ["/bin/bash"]
