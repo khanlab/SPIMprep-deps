@@ -864,6 +864,7 @@ files = [
 ]
 
 [package.dependencies]
+jaxlib = {version = "0.4.24", optional = true, markers = "extra == \"cpu\""}
 ml-dtypes = ">=0.2.0"
 numpy = [
     {version = ">=1.23.2", markers = "python_version >= \"3.11\""},
@@ -3024,4 +3025,4 @@ jupyter = ["ipytree (>=0.2.2)", "ipywidgets (>=8.0.0)", "notebook"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.13"
-content-hash = "c55d8f53469afbcbb23ef8c1c13c1eebbfcce447769bfe01f16be55c02f4f1fe"
+content-hash = "4abc787248b567f37b6c08cb558a8e36d3a222756d40914b4882396af58eb180"
