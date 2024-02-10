@@ -28,8 +28,8 @@ ENV LANG C.UTF-8
 ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0-amazon-corretto
 
 
-#install maven hdf5-tools deps
-RUN apt-get update && apt-get install -y maven hdf5-tools libblosc-dev && mkdir -p /opt/bin
+#install maven hdf5-tools deps, 7zip (for zarr zipstore archiving)
+RUN apt-get update && apt-get install -y maven hdf5-tools libblosc-dev p7zip-full && mkdir -p /opt/bin
 
 ENV PATH $PATH:/opt/bin
 
