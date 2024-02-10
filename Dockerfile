@@ -64,5 +64,9 @@ RUN ImageJ-linux64 --update  add-update-site BigStitcher https://sites.imagej.ne
  && ImageJ-linux64  --update  update \
  && ImageJ-linux64  --update  list 
 
+#install pythondeps (including ome-zarr separately, having issues with including it in pyproject)
+COPY . /opt/pythondeps
+RUN pip install --no-cache-dir /opt/pythondeps && pip install --no-cache-dir ome-zarr
+
 
 ENTRYPOINT ["/bin/bash"]

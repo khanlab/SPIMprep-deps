@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "pythondeps"
+version = "0.1.0"
+description = "Containerized python environment"
+authors = ["Ali Khan <alik@robarts.ca>"]
+readme = "README.md"
+packages = []
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+snakemake = "^8.4.2"
+tifffile = "^2023.12.9"
+xmltodict = "^0.13.0"
+snakebids = "^0.10.0"
+basicpy = "^1.1.0"
+npy2bdv = "^1.0.8"
+zarr = "^2.16.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
