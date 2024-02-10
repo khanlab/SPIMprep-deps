@@ -15,7 +15,8 @@ snakebids = "^0.10.0"
 basicpy = "^1.1.0"
 npy2bdv = "^1.0.8"
 zarr = "^2.16.1"
-jax = {extras = ["cpu"], version = "^0.4.24"}
+jax = "0.4.23"
+jaxlib = "0.4.23"
 
 [build-system]
 requires = ["poetry-core"]
