@@ -37,9 +37,7 @@ ENV PATH $PATH:/opt/bin
 RUN cd /opt && git clone https://github.com/saalfeldlab/n5-utils && cd n5-utils && ./install /opt/bin
 
 #install bigstitcher-spark, and customize launcher to include args for mem and cpu 
-RUN cd /opt && git clone https://github.com/JaneliaSciComp/BigStitcher-Spark.git && cd BigStitcher-Spark && ./install -t 32 -m 128 && \ 
- sed 's/-Xmx128g/-Xmx${1}/' affine-fusion  | sed 's/local\[32\]/local\[${2}\]/' | sed 's/JAR=/if \[ "$#" -lt 2 \]; then echo "Usage : $0 <mem (e.g. 32g)> <cpus (e.g. 16)"; exit 1; fi\nJAR=/g' > /opt/bin/affine-fusion-custom && chmod a+x /opt/bin/affine-fusion-custom
-
+RUN cd /opt && git clone https://github.com/akhanf/BigStitcher-Spark.git && cd BigStitcher-Spark && ./install -t 32 -m 128 && cp -v affine-fusion /opt/bin && cp -v target/BigStitcher-Spark-0.0.2-SNAPSHOT.jar /opt/bin 
 
 # Install Fiji.
 RUN mkdir /opt/fiji \
