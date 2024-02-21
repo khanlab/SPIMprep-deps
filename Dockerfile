@@ -72,9 +72,10 @@ FROM python as runtime
 COPY --from=itksnap /opt/itksnap-mini/* /opt/bin
 
 
-#install pythondeps (including ome-zarr separately, having issues with including it in pyproject)
+#install pythondeps (including ome-zarr separately, having issues with including it in pyproject - also use master branch
+#to get latest fixes for omero metadata)
 COPY . /opt/pythondeps
-RUN pip install --no-cache-dir /opt/pythondeps && pip install --no-cache-dir ome-zarr
+RUN pip install --no-cache-dir /opt/pythondeps && pip install --no-cache-dir git+https://github.com/ome/ome-zarr-py@master
 
 
 ENTRYPOINT ["/bin/bash"]
