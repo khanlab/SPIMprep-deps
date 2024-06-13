@@ -18,6 +18,8 @@ zarr = "^2.16.1"
 jax = "0.4.23"
 jaxlib = "0.4.23"
 imagecodecs = "^2024.1.1"
+matplotlib = "^3.9.0"
+numpy = "^1.26.4"
 
 [build-system]
 requires = ["poetry-core"]
