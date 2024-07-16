@@ -20,6 +20,7 @@ jaxlib = "0.4.23"
 imagecodecs = "^2024.1.1"
 matplotlib = "^3.9.0"
 numpy = "^1.26.4"
+zarrnii = "0.1.3a1"
 dask = "^2024.7.0"
 distributed = "^2024.7.0"
 
