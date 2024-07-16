@@ -78,4 +78,5 @@ COPY . /opt/pythondeps
 RUN pip install --no-cache-dir /opt/pythondeps && pip install --no-cache-dir git+https://github.com/ome/ome-zarr-py@master
 
 
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["/bin/bash", "-l", "-c"]
+
