@@ -8,10 +8,10 @@ packages = []
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.13"
-snakemake = "^8.4.2"
+snakemake = "^8.0.0"
+snakebids = "^0.13.0"
 tifffile = "^2023.12.9"
 xmltodict = "^0.13.0"
-snakebids = "^0.10.0"
 basicpy = "^1.2.0"
 npy2bdv = "^1.0.8"
 zarr = "^2.16.1"
