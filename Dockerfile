@@ -1,10 +1,11 @@
 FROM python:bullseye as python
 
 #install gcloud cli
-RUN apt-get update \
-    && apt-get install -y apt-transport-https ca-certificates gnupg curl \
-    && echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg && apt-get update -y && apt-get install google-cloud-cli -y
-    
+RUN apt-get update \ 
+    && apt-get install -y wget \
+    && cd /opt && wget https://storage.googleapis.com/cloud-sdk-release/google-cloud-cli-371.0.0-linux-x86_64.tar.gz \
+    && tar -xvzf google-cloud-cli-linux-x86_64.tar.gz 
+ENV PATH $PATH:/opt/google-cloud-sdk/bin
 
 #install java from Amazon corretto
 ARG version=8.402.08-1
@@ -20,7 +21,7 @@ ARG version=8.402.08-1
 RUN set -eux \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
-        curl  gnupg software-properties-common fontconfig java-common \
+        curl ca-certificates gnupg software-properties-common fontconfig java-common \
     && curl -fL https://apt.corretto.aws/corretto.key | apt-key add - \
     && add-apt-repository 'deb https://apt.corretto.aws stable main' \
     && mkdir -p /usr/share/man/man1 || true \
