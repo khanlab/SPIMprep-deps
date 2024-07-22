@@ -23,6 +23,12 @@ numpy = "^1.26.4"
 zarrnii = "0.1.3a1"
 dask = "^2024.7.0"
 distributed = "^2024.7.0"
+snakemake-storage-plugin-s3 = "^0.2.11"
+snakemake-storage-plugin-gcs = "^1.0.0"
+gcsfs = "^2024.3.1"
+s3fs = "^2024.3.1"
+universal-pathlib = "^0.2.2"
+
 
 [build-system]
 requires = ["poetry-core"]
