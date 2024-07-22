@@ -3,9 +3,8 @@ FROM python:bullseye as python
 #install gcloud cli
 RUN apt-get update \ 
     && apt-get install -y wget \
-    && cd /opt && wget https://storage.googleapis.com/cloud-sdk-release/google-cloud-cli-371.0.0-linux-x86_64.tar.gz \
-    && tar -xvzf google-cloud-cli-371.0.0-linux-x86_64.tar.gz \
-    && ./google-cloud-sdk/install.sh -q 
+    && cd /opt && wget https://storage.googleapis.com/cloud-sdk-release/google-cloud-cli-484.0.0-linux-x86_64.tar.gz \
+    && tar -xvzf google-cloud-cli-484.0.0-linux-x86_64.tar.gz 
 
 ENV PATH $PATH:/opt/google-cloud-sdk/bin
 
