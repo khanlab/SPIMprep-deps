@@ -4,7 +4,7 @@ FROM python:bullseye as python
 RUN apt-get update \ 
     && apt-get install -y wget \
     && cd /opt && wget https://storage.googleapis.com/cloud-sdk-release/google-cloud-cli-371.0.0-linux-x86_64.tar.gz \
-    && tar -xvzf google-cloud-cli-linux-x86_64.tar.gz 
+    && tar -xvzf google-cloud-cli-371.0.0-linux-x86_64.tar.gz
 ENV PATH $PATH:/opt/google-cloud-sdk/bin
 
 #install java from Amazon corretto
