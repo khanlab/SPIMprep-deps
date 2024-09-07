@@ -283,6 +283,29 @@ files = [
 ]
 
 [[package]]
+name = "bokeh"
+version = "3.5.2"
+description = "Interactive plots and applications in the browser from Python"
+category = "main"
+optional = false
+python-versions = ">=3.10"
+files = [
+    {file = "bokeh-3.5.2-py3-none-any.whl", hash = "sha256:2be7bc1484a961c496294c8725c47f21129191cb6b3fa45f953cc97ae075bc4b"},
+    {file = "bokeh-3.5.2.tar.gz", hash = "sha256:03a54a67db677b8881834271c620a781b383ae593af5c3ea2149164754440d07"},
+]
+
+[package.dependencies]
+contourpy = ">=1.2"
+Jinja2 = ">=2.9"
+numpy = ">=1.16"
+packaging = ">=16.8"
+pandas = ">=1.2"
+pillow = ">=7.1.0"
+PyYAML = ">=3.10"
+tornado = ">=6.2"
+xyzservices = ">=2021.09.1"
+
+[[package]]
 name = "boto3"
 version = "1.34.131"
 description = "The AWS SDK for Python"
@@ -4777,6 +4800,18 @@ files = [
 ]
 
 [[package]]
+name = "xyzservices"
+version = "2024.9.0"
+description = "Source of XYZ tiles providers"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "xyzservices-2024.9.0-py3-none-any.whl", hash = "sha256:776ae82b78d6e5ca63dd6a94abb054df8130887a4a308473b54a6bd364de8644"},
+    {file = "xyzservices-2024.9.0.tar.gz", hash = "sha256:68fb8353c9dbba4f1ff6c0f2e5e4e596bb9e1db7f94f4f7dfbcb26e25aa66fde"},
+]
+
+[[package]]
 name = "yarl"
 version = "1.9.4"
 description = "Yet another URL library"
@@ -4971,4 +5006,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.13"
-content-hash = "6dfba8a9bd50bedd0244b640753739d1f9d7be4a729d6a1ce577cd084c01a216"
+content-hash = "67878f34f849fb91607eb914919672a63521c9d7fe38a0f6a26b4937233985e6"
