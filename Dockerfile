@@ -57,17 +57,19 @@ RUN mkdir /opt/fiji \
 ENV PATH $PATH:/opt/fiji/Fiji.app
 
 
-# Update URLs use https
-RUN ImageJ-linux64 --update edit-update-site ImageJ https://update.imagej.net/ \
- && ImageJ-linux64 --update edit-update-site Fiji https://update.fiji.sc/ \
- && ImageJ-linux64 --update edit-update-site Java-8 https://sites.imagej.net/Java-8/
+# add bigstitcher jars manually so we obtain a fixed version (note: need to handle dependencies manually in this case)
+COPY fiji_jars.txt /opt/fiji/fiji_jars.txt
+COPY fiji_plugins.txt /opt/fiji/fiji_plugins.txt
 
+# Loop over each URL in amd download each JAR
+RUN cat /opt/fiji/fiji_jars.txt | while read url; do \
+        wget "$url" --directory-prefix=/opt/fiji/Fiji.app/jars; \
+    done
 
-#install bigstitcher
-RUN ImageJ-linux64 --update  add-update-site BigStitcher https://sites.imagej.net/BigStitcher/ \
- && ImageJ-linux64  --update refresh-update-sites \
- && ImageJ-linux64  --update  update \
- && ImageJ-linux64  --update  list 
+RUN cat /opt/fiji/fiji_plugins.txt | while read url; do \
+        wget "$url" --directory-prefix=/opt/fiji/Fiji.app/plugins; \
+    done
+
 
 # Stage: itksnap (built with Ubuntu16.04 - glibc 2.23)
 FROM khanlab/itksnap:main as itksnap

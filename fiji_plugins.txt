@@ -1,0 +1,1 @@
+https://maven.scijava.org/content/repositories/releases/net/preibisch/BigStitcher/1.2.10/BigStitcher-1.2.10.jar
