@@ -15,3 +15,4 @@ https://maven.imagej.net/content/repositories/releases/net/imglib2/imglib2-algor
 https://repo1.maven.org/maven2/net/imagej/ij/1.54f/ij-1.54f.jar
 https://maven.scijava.org/content/repositories/releases/net/imglib2/imglib2-ij/2.0.1/imglib2-ij-2.0.1.jar
 https://repo1.maven.org/maven2/gov/nist/isg/generic-archiver/1.1.0/generic-archiver-1.1.0.jar
+https://repo1.maven.org/maven2/gov/nist/isg/pyramidio/1.1.0/pyramidio-1.1.0.jar
