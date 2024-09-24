@@ -36,7 +36,7 @@ ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0-amazon-corretto
 
 
 #install maven hdf5-tools deps, 7zip (for zarr zipstore archiving)
-RUN apt-get update && apt-get install -y maven hdf5-tools libblosc-dev p7zip-full && mkdir -p /opt/bin
+RUN apt-get update && apt-get install -y maven hdf5-tools libblosc-dev p7zip-full libxtst-dev && mkdir -p /opt/bin
 
 ENV PATH $PATH:/opt/bin
 
@@ -44,7 +44,11 @@ ENV PATH $PATH:/opt/bin
 RUN cd /opt && git clone https://github.com/saalfeldlab/n5-utils && cd n5-utils && ./install /opt/bin
 
 #install bigstitcher-spark, and customize launcher to include args for mem and cpu 
-RUN cd /opt && git clone https://github.com/akhanf/BigStitcher-Spark.git && cd BigStitcher-Spark && ./install -t 32 -m 128 && cp -v affine-fusion /opt/bin && cp -v target/BigStitcher-Spark-0.0.2-SNAPSHOT.jar /opt/bin 
+RUN cd /opt && git clone https://github.com/akhanf/BigStitcher-Spark.git
+COPY spark_custom_install /opt/BigStitcher-Spark/install
+RUN cd BigStitcher-Spark && ./install -t 32 -m 128
+
+ENV PATH $PATH:/opt/BigStitcher-Spark
 
 # Install Fiji.
 RUN mkdir /opt/fiji \
