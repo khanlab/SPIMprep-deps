@@ -94,27 +94,30 @@ sleep 2
 
 #mvn clean install
 #echo 'Building a farjar, which can also be used for cluster/cloud execution' 
-mvn clean install -P fatjar -gs /opt/BigStitcher-Spark/settings.xml
-mvn -Dmdep.outputFile=cp.txt -Dmdep.includeScope=runtime dependency:build-classpath
+mvn clean install -P fatjar -Dmaven.repo.local=/opt/BigStitcher-Spark/repo
+mvn -Dmdep.outputFile=cp.txt -Dmdep.includeScope=runtime dependency:build-classpath -Dmaven.repo.local=/opt/BigStitcher-Spark/repo
 
 # function that installs one command
 # $1 - command name
 # $2 - java class containing the functionality
 install_command () {
-	echo "Installing '$1' command into" $INSTALL_DIR
+    echo "Installing '$1' command into" $INSTALL_DIR
 
-	echo '#!/bin/bash' > $1
-	echo '' >> $1
-	echo "JAR=/opt/BigStitcher-Spark/repo/net/preibisch/BigStitcher-Spark/${VERSION}/BigStitcher-Spark-${VERSION}.jar" >> $1
-	echo 'java \' >> $1
-	echo "  -Xmx${MEM}g -Dspark.master=local[${THREADS}] \\" >> $1
-#	echo '  -XX:+UseConcMarkSweepGC \' >> $1
-	echo -n '  -cp $JAR:' >> $1
-	echo -n $(cat cp.txt) >> $1
-	echo ' \' >> $1
-	echo '  '$2' "$@"' >> $1
+    echo '#!/bin/bash' > $1
+    echo '' >> $1
+    echo 'MEM=$1' >> $1
+    echo 'THREADS=$2' >> $1
+    echo 'shift 2' >> $1
+    echo "JAR=/opt/BigStitcher-Spark/repo/net/preibisch/BigStitcher-Spark/${VERSION}/BigStitcher-Spark-${VERSION}.jar" >> $1
+    echo 'java \' >> $1
+    echo "  -Xmx${MEM}g -Dspark.master=local[${THREADS}] \\" >> $1
+    # echo '  -XX:+UseConcMarkSweepGC \' >> $1
+    echo -n '  -cp $JAR:' >> $1
+    echo -n $(cat cp.txt) >> $1
+    echo ' \' >> $1
+    echo '  '$2' "$@"' >> $1
 
-	chmod a+x $1
+    chmod a+x $1
 }
 
 echo 'Installing workflow tools ...'
