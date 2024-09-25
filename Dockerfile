@@ -46,7 +46,7 @@ RUN cd /opt && git clone https://github.com/saalfeldlab/n5-utils && cd n5-utils 
 #install bigstitcher-spark, and customize launcher to include args for mem and cpu 
 RUN cd /opt && git clone https://github.com/akhanf/BigStitcher-Spark.git
 COPY spark_custom_install /opt/BigStitcher-Spark/install
-RUN cd BigStitcher-Spark && ./install -t 32 -m 128
+RUN cd /opt/BigStitcher-Spark && ./install -t 32 -m 128
 
 ENV PATH $PATH:/opt/BigStitcher-Spark
 
