@@ -105,12 +105,12 @@ install_command () {
 
     echo '#!/bin/bash' > $1
     echo '' >> $1
-    echo 'MEM=$1' >> $1
+    echo 'MEM_GB=$1' >> $1
     echo 'THREADS=$2' >> $1
     echo 'shift 2' >> $1
     echo "JAR=/opt/BigStitcher-Spark/repo/net/preibisch/BigStitcher-Spark/${VERSION}/BigStitcher-Spark-${VERSION}.jar" >> $1
     echo 'java \' >> $1
-    echo "  -Xmx${MEM}g -Dspark.master=local[${THREADS}] \\" >> $1
+    echo "  -Xmx\${MEM}g -Dspark.master=local[$\{THREADS}] \\" >> $1
     # echo '  -XX:+UseConcMarkSweepGC \' >> $1
     echo -n '  -cp $JAR:' >> $1
     echo -n $(cat cp.txt) >> $1
