@@ -41,9 +41,10 @@ echo 'Building the code'
 sleep 2
 
 #mvn clean install
-#echo 'Building a farjar, which can also be used for cluster/cloud execution' 
-mvn clean install -P fatjar -gs /opt/BigStitcher-Spark/settings.xml
-mvn -Dmdep.outputFile=cp.txt -Dmdep.includeScope=runtime dependency:build-classpath
+#echo 'Building a fatjar, which can also be used for cluster/cloud execution' 
+mvn clean install -P fatjar -Dmaven.repo.local=/opt/BigStitcher-Spark/repo
+mvn -Dmdep.outputFile=cp.txt -Dmdep.includeScope=runtime dependency:build-classpath -Dmaven.repo.local=/opt/BigStitcher-Spark/repo
+
 
 # function that installs one command
 # $1 - command name
