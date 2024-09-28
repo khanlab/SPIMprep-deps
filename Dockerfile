@@ -35,8 +35,8 @@ ENV LANG C.UTF-8
 ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0-amazon-corretto
 
 
-#install maven hdf5-tools deps, 7zip (for zarr zipstore archiving)
-RUN apt-get update && apt-get install -y maven hdf5-tools libblosc-dev p7zip-full libxtst-dev && mkdir -p /opt/bin
+#install maven hdf5-tools deps, 7zip (for zarr zipstore archiving), libvips
+RUN apt-get update && apt-get install -y maven hdf5-tools libblosc-dev p7zip-full libxtst-dev libvips-dev && mkdir -p /opt/bin
 
 ENV PATH $PATH:/opt/bin
 
@@ -50,28 +50,6 @@ RUN cd /opt/BigStitcher-Spark && ./install -t 32 -m 128
 
 ENV PATH $PATH:/opt/BigStitcher-Spark
 
-# Install Fiji.
-RUN mkdir /opt/fiji \
- && cd /opt/fiji \
- && wget -q https://downloads.imagej.net/fiji/archive/20240208-1017/fiji-nojre.zip \
- && unzip fiji-nojre.zip \
- && rm fiji-nojre.zip
-
-# Add fiji to the PATH
-ENV PATH $PATH:/opt/fiji/Fiji.app
-
-
-# Update URLs use https
-RUN ImageJ-linux64 --update edit-update-site ImageJ https://update.imagej.net/ \
- && ImageJ-linux64 --update edit-update-site Fiji https://update.fiji.sc/ \
- && ImageJ-linux64 --update edit-update-site Java-8 https://sites.imagej.net/Java-8/
-
-
-#install bigstitcher
-RUN ImageJ-linux64 --update  add-update-site BigStitcher https://sites.imagej.net/BigStitcher/ \
- && ImageJ-linux64  --update refresh-update-sites \
- && ImageJ-linux64  --update  update \
- && ImageJ-linux64  --update  list 
 
 # Stage: itksnap (built with Ubuntu16.04 - glibc 2.23)
 FROM khanlab/itksnap:main as itksnap
@@ -83,10 +61,9 @@ FROM python as runtime
 COPY --from=itksnap /opt/itksnap-mini/* /opt/bin
 
 
-#install pythondeps (including ome-zarr separately, having issues with including it in pyproject - also use master branch
-#to get latest fixes for omero metadata)
+#install pythondeps
 COPY . /opt/pythondeps
-RUN pip install --no-cache-dir /opt/pythondeps && pip install --no-cache-dir git+https://github.com/ome/ome-zarr-py@master
+RUN pip install --no-cache-dir /opt/pythondeps 
 
 
 ENTRYPOINT ["/bin/bash", "-l", "-c"]
