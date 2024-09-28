@@ -50,28 +50,6 @@ RUN cd /opt/BigStitcher-Spark && ./install -t 32 -m 128
 
 ENV PATH $PATH:/opt/BigStitcher-Spark
 
-# Install Fiji.
-RUN mkdir /opt/fiji \
- && cd /opt/fiji \
- && wget -q https://downloads.imagej.net/fiji/archive/20240208-1017/fiji-nojre.zip \
- && unzip fiji-nojre.zip \
- && rm fiji-nojre.zip
-
-# Add fiji to the PATH
-ENV PATH $PATH:/opt/fiji/Fiji.app
-
-
-# Update URLs use https
-RUN ImageJ-linux64 --update edit-update-site ImageJ https://update.imagej.net/ \
- && ImageJ-linux64 --update edit-update-site Fiji https://update.fiji.sc/ \
- && ImageJ-linux64 --update edit-update-site Java-8 https://sites.imagej.net/Java-8/
-
-
-#install bigstitcher
-RUN ImageJ-linux64 --update  add-update-site BigStitcher https://sites.imagej.net/BigStitcher/ \
- && ImageJ-linux64  --update refresh-update-sites \
- && ImageJ-linux64  --update  update \
- && ImageJ-linux64  --update  list 
 
 # Stage: itksnap (built with Ubuntu16.04 - glibc 2.23)
 FROM khanlab/itksnap:main as itksnap
