@@ -35,8 +35,8 @@ ENV LANG C.UTF-8
 ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0-amazon-corretto
 
 
-#install maven hdf5-tools deps, 7zip (for zarr zipstore archiving)
-RUN apt-get update && apt-get install -y maven hdf5-tools libblosc-dev p7zip-full libxtst-dev && mkdir -p /opt/bin
+#install maven hdf5-tools deps, 7zip (for zarr zipstore archiving), libvips
+RUN apt-get update && apt-get install -y maven hdf5-tools libblosc-dev p7zip-full libxtst-dev libvips-dev && mkdir -p /opt/bin
 
 ENV PATH $PATH:/opt/bin
 
@@ -83,10 +83,9 @@ FROM python as runtime
 COPY --from=itksnap /opt/itksnap-mini/* /opt/bin
 
 
-#install pythondeps (including ome-zarr separately, having issues with including it in pyproject - also use master branch
-#to get latest fixes for omero metadata)
+#install pythondeps
 COPY . /opt/pythondeps
-RUN pip install --no-cache-dir /opt/pythondeps && pip install --no-cache-dir git+https://github.com/ome/ome-zarr-py@master
+RUN pip install --no-cache-dir /opt/pythondeps 
 
 
 ENTRYPOINT ["/bin/bash", "-l", "-c"]
