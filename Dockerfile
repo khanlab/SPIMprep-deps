@@ -1,4 +1,4 @@
-FROM python:bullseye as python
+FROM python:3.11-bullseye as python
 
 #install gcloud cli
 RUN apt-get update \ 
